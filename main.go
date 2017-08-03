@@ -1,4 +1,4 @@
-package GoRA
+package main
 
 import (
     "net/http"

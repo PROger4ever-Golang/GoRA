@@ -3,64 +3,42 @@ package package_pages
 const UploadPage = `
 <html>
 <head>
-    <style>
-        label {
-            display: inline-block;
-            width: 55px;
-        }
+  <style>
+    label {
+      display: inline-block;
+      width: 55px;
+    }
 
-        #output {
-            height: 500px;
-            overflow-y: scroll;
-        }
-    </style>
+    #output {
+      height: 500px;
+      overflow-y: scroll;
+    }
+  </style>
 
-    <title></title>
+  <title></title>
 </head>
 <body>
-<form id="form" action="/run" onsubmit="return send(event)">
-    <label>cmd:</label> <input id="cmd" name="cmd" title="cmd" placeholder="cmd"><br/>
-    <br/>
-    <label>timeout:</label> <input id="timeout" name="timeout" title="timeout" placeholder="timeout" type="number"
-                                   value="30000"><br/>
-    <label>nowait:</label> <input id="nowait" name="nowait" title="nowait" placeholder="nowait" type="checkbox"><br/>
-    <br/>
-    <label>params:</label> <input id="params0" name="params[]" title="params" placeholder="params"><br/>
-    <label>params:</label> <input id="params1" name="params[]" title="params" placeholder="params"><br/>
-    <input id="formSubmit" type="submit" value="submit">
+<form id="form" enctype="multipart/form-data" action="/upload" method="post" onsubmit="return send(event)">
+  <label>file:</label> <input id="file" type="file" name="uploadFile" /><br/>
+  <label>filepath:</label> <input id="filepath" name="filepath" title="filepath" placeholder="filepath" value="/tmp/upload.bin"><br/>
+  <input id="formSubmit" type="submit" value="upload" />
 </form>
-
 <div id="output"></div>
 
 <script>
   let form = document.getElementById('form');
   let output = document.getElementById('output');
+  let filepath = document.getElementById('filepath');
 
-  function formatParams() {
-    let res = "?";
-    for (let inp of form.querySelectorAll('input:not([type=submit])')) {
-      let name = inp.name;//.replace("[]", "");
-      let val = "wrong_value";
-      switch (inp.type) {
-        case "checkbox":
-          val = inp.checked ? "1" : "";
-          break;
-        default:
-          val = inp.value;
-      }
-      val = encodeURIComponent(val);
-      res += (name + '=' + val + '&')
-    }
-    return res;
-  }
-
+  filepath.focus();
+  filepath.select();
 
   function send(event) {
     output.innerText = "";
     event.preventDefault();
     let xhr = new XMLHttpRequest();
 
-    xhr.open('GET', '/run'/* + formatParams()*/);
+    xhr.open('POST', '/upload');
 
     let formData = new FormData(form);
 
@@ -82,7 +60,7 @@ const UploadPage = `
       output.innerText = ("Error " + e.target.status + " occurred while receiving the document.");
     };
 
-    xhr.send(/*formData*/null);
+    xhr.send(formData);
     return false;
   }
 </script>

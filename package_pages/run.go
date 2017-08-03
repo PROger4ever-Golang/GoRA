@@ -19,13 +19,13 @@ const RunPage = `
 </head>
 <body>
 <form id="form" action="/run" onsubmit="return send(event)">
-    <label>cmd:</label> <input id="cmd" name="cmd" title="cmd" placeholder="cmd"><br/>
+    <label>cmd:</label> <input id="cmd" name="cmd" title="cmd" placeholder="cmd" value="bash"><br/>
     <br/>
     <label>timeout:</label> <input id="timeout" name="timeout" title="timeout" placeholder="timeout" type="number"
                                    value="30000"><br/>
     <label>nowait:</label> <input id="nowait" name="nowait" title="nowait" placeholder="nowait" type="checkbox"><br/>
     <br/>
-    <label>params:</label> <input id="params0" name="params[]" title="params" placeholder="params"><br/>
+    <label>params:</label> <input id="params0" name="params[]" title="params" placeholder="params" value="-c"><br/>
     <label>params:</label> <input id="params1" name="params[]" title="params" placeholder="params"><br/>
     <input id="formSubmit" type="submit" value="submit">
 </form>
@@ -35,11 +35,14 @@ const RunPage = `
 <script>
   let form = document.getElementById('form');
   let output = document.getElementById('output');
+  let params1 = document.getElementById('params1');
+
+  params1.focus();
 
   function formatParams() {
     let res = "?";
     for (let inp of form.querySelectorAll('input:not([type=submit])')) {
-      let name = inp.name;//.replace("[]", "");
+      let name = inp.name;
       let val = "wrong_value";
       switch (inp.type) {
         case "checkbox":
@@ -60,9 +63,9 @@ const RunPage = `
     event.preventDefault();
     let xhr = new XMLHttpRequest();
 
-    xhr.open('GET', '/run'/* + formatParams()*/);
+    xhr.open('GET', '/run' + formatParams());
 
-    let formData = new FormData(form);
+    //let formData = new FormData(form);
 
     xhr.onprogress = function onprogress(e) {
       //var percentComplete = (e.position / e.totalSize)*100;

@@ -10,6 +10,7 @@ import (
     "strconv"
     "golang.org/x/net/context"
     "../request"
+    "strings"
 )
 
 func runHandler(wr http.ResponseWriter, req *http.Request) {
@@ -20,10 +21,13 @@ func runHandler(wr http.ResponseWriter, req *http.Request) {
         fmt.Fprintf(wr, "Error while ParseForm: %v", err)
         return
     }
-    err = req.ParseMultipartForm(defaultMaxMemory)
-    if err != nil {
-        fmt.Fprintf(wr, "Error while ParseMultipartForm: %v", err)
-        return
+
+    if strings.Contains(req.Header.Get("Content-Type"), "multipart/form-data") {
+        err = req.ParseMultipartForm(defaultMaxMemory)
+        if err != nil {
+            fmt.Fprintf(wr, "Error while ParseMultipartForm: %v", err)
+            return
+        }
     }
 
     //log.Printf("%q", req.Form)

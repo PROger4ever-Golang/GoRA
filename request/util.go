@@ -9,8 +9,19 @@ import (
 
 func ParseParam(req *http.Request, param string) []string {
     res := req.Form[param]
-    if len(res) == 0 {
-        res = req.MultipartForm.Value[param]
+    if len(res) > 0 {
+        return res
+    }
+    res = req.PostForm[param]
+    if len(res) > 0 {
+        return res
+    }
+    if req.MultipartForm == nil {
+        return []string{};
+    }
+    res = req.MultipartForm.Value[param]
+    if len(res) > 0 {
+        return res
     }
     return res
 }
