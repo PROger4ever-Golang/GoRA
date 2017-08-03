@@ -8,7 +8,7 @@ import (
     "fmt"
 )
 
-var host = flag.String("h", "127.0.0.1", "host/ip to bind")
+var host = flag.String("h", "", "host/ip to bind")
 var port = flag.Int("p", 53837, "port to bind")
 
 func main() {
