@@ -3,7 +3,7 @@ package routes
 import (
     "net/http"
     "fmt"
-    "../package_pages"
+    "github.com/PROger4ever/GoRA/package_pages"
 )
 
 func runPageHandler(wr http.ResponseWriter, req *http.Request) {

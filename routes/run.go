@@ -9,7 +9,7 @@ import (
     "math"
     "strconv"
     "golang.org/x/net/context"
-    "../request"
+    "github.com/PROger4ever/GoRA/request"
     "strings"
 )
 

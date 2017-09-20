@@ -4,7 +4,7 @@ import (
     "net/http"
     "strings"
     "fmt"
-    "../request"
+    "github.com/PROger4ever/GoRA/request"
 )
 
 func showHandler(wr http.ResponseWriter, req *http.Request) {

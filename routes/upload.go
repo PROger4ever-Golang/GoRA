@@ -5,7 +5,7 @@ import (
     "os"
     "io"
     "net/http"
-    "../request"
+    "github.com/PROger4ever/GoRA/request"
 )
 
 func uploadHandler(wr http.ResponseWriter, req *http.Request) {
@@ -24,7 +24,7 @@ func uploadHandler(wr http.ResponseWriter, req *http.Request) {
     }
     filepath := filepathSlice[0]
 
-    uploadFile, _/*handler*/, err := req.FormFile("uploadFile")
+    uploadFile, _ /*handler*/ , err := req.FormFile("uploadFile")
     if err != nil {
         fmt.Fprintf(wr, "Error while getting uploadFile from MultipartForm: %v", err)
         return

@@ -6,8 +6,8 @@ import (
     "strconv"
     "fmt"
     "log"
+    "github.com/PROger4ever/GoRA/routes"
     "github.com/sevlyar/go-daemon"
-    "./routes"
     "os"
 )
 
